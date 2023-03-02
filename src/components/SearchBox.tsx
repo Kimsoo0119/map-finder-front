@@ -1,8 +1,20 @@
 import styled from "@emotion/styled";
+import axios from "axios";
 import React, { useState } from "react";
 
 function SearchBox() {
   const [searchTerm, setSearchTerm] = useState("");
+  const handleSearch = async () => {
+    try {
+      console.log(searchTerm);
+
+      const response = await axios.get(`http://localhost:5000/places/${searchTerm}`);
+      console.log(response.data);
+      setSearchTerm("");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <InputBox>
@@ -15,6 +27,7 @@ function SearchBox() {
         maxLength={20}
         value={searchTerm}
         onChange={({ target: { value } }) => setSearchTerm(value)}
+        onKeyPress={({ key }) => key === "Enter" && handleSearch()}
       />
       {searchTerm && (
         <SearchIcon
