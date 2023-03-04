@@ -1,7 +1,9 @@
 import "../src/styles/globals.css";
 
 import MapPage from "pages/map";
+import LocalSearchPage from "pages/search";
 import styled, { createGlobalStyle } from "styled-components";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
   html, body, #root {
@@ -19,11 +21,13 @@ const AppWrapper = styled.div`
 function App() {
   return (
     <>
-      <AppWrapper>
-        <GlobalStyle />
-
-        <MapPage />
-      </AppWrapper>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MapPage />} />
+          <Route path="/locals" element={<LocalSearchPage />} />
+        </Routes>
+      </BrowserRouter>
+      <GlobalStyle />
     </>
   );
 }

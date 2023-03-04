@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const { naver } = window;
-const Map = () => {
+function Map() {
   const [currentLocation, setCurrentLocation] = useState<Partial<GeolocationCoordinates>>({
     latitude: 0,
     longitude: 0,
@@ -51,7 +51,7 @@ const Map = () => {
     const marker = new naver.maps.Marker(markerOptions);
   }, [currentLocation]);
 
-  return <div id="map" style={{ width: window.innerWidth, height: window.innerHeight }}></div>;
-};
+  return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
+}
 
 export default Map;
