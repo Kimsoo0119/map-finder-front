@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Map from "components/Map";
+import MyLocationMap from "components/MyLocationMap";
 import SearchBox from "components/SearchBox";
 function MapPage() {
   return (
@@ -8,7 +8,7 @@ function MapPage() {
         <SearchBox />
       </SearchBoxContainer>
       <MapContainer>
-        <Map />
+        <MyLocationMap />
       </MapContainer>
     </Container>
   );

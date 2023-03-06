@@ -4,6 +4,7 @@ import MapPage from "pages/map";
 import LocalSearchPage from "pages/search";
 import styled, { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PlacePage from "pages/place";
 
 const GlobalStyle = createGlobalStyle`
   html, body, #root {
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MapPage />} />
           <Route path="/locals" element={<LocalSearchPage />} />
+          <Route path="/places/:placeName" element={<PlacePage />} />
         </Routes>
       </BrowserRouter>
       <GlobalStyle />

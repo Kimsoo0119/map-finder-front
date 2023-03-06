@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const { naver } = window;
-function Map() {
+function MyLocationMap() {
   const [currentLocation, setCurrentLocation] = useState<Partial<GeolocationCoordinates>>({
     latitude: 0,
     longitude: 0,
@@ -54,4 +54,4 @@ function Map() {
   return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
 }
 
-export default Map;
+export default MyLocationMap;
