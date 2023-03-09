@@ -1,4 +1,4 @@
-import LocalSearchBox from "components/LocalSearchBox";
+import LocationSearchBox from "components/LocationSearchBox";
 import styled from "styled-components";
 import { useState } from "react";
 import Result from "components/SearchResult";
@@ -15,7 +15,7 @@ function LocalSearchPage() {
   return (
     <Container>
       <SearchBoxContainer>
-        <LocalSearchBox placeName={placeName} setPlaceName={setPlaceName} />
+        <LocationSearchBox placeName={placeName} setPlaceName={setPlaceName} />
       </SearchBoxContainer>
       <SearchResultContainer>
         <Result results={results} placeName={placeName} setResults={setResults} />

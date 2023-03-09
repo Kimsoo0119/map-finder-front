@@ -6,6 +6,7 @@ function SearchBox() {
   const handleClick = () => {
     navigate("/locals");
   };
+
   return (
     <InputBox>
       <SearchIcon

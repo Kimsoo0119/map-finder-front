@@ -3,6 +3,7 @@ import { SearchResult } from "pages/search";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface Props {
   results: SearchResult[];
@@ -11,29 +12,40 @@ interface Props {
 }
 
 function Result({ results, placeName, setResults }: Props) {
+  const [loading, setLoading] = useState<boolean>(false);
   const [hasResult, setHasResult] = useState<boolean>(true);
 
   useEffect(() => {
-    setHasResult(true);
-    setResults([]);
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(`http://localhost:5000/places/${placeName}`);
-
-        if (data.result.length === 0) {
-          setHasResult(false);
-          setResults(data.result);
-        } else {
-          setHasResult(true);
-          setResults(data.result);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
+    if (placeName) {
+      fetchData();
+    }
   }, [placeName, setResults]);
+
+  async function fetchData() {
+    try {
+      setResults([]);
+      setLoading(true);
+      setHasResult(true);
+
+      const { data } = await axios.get(`http://localhost:5000/places/${placeName}`);
+      setLoading(false);
+      if (data.result.length === 0) {
+        setHasResult(false);
+        setResults([]);
+      } else {
+        setHasResult(true);
+        setResults(data.result);
+      }
+    } catch (error) {
+      setLoading(false);
+      setResults([]);
+      setHasResult(false);
+    }
+  }
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
 
   if (!hasResult) {
     return <CenteredParagraph>{placeName}에 대한 검색 결과가 없습니다.</CenteredParagraph>;
@@ -73,6 +85,7 @@ const LinkWrapper = styled.div`
     text-decoration: none;
   }
 `;
+
 const CenteredParagraph = styled.p`
   display: flex;
   justify-content: center;

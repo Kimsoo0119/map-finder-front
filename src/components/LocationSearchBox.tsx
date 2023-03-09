@@ -6,7 +6,7 @@ interface SearchProps {
   placeName: string;
   setPlaceName: React.Dispatch<React.SetStateAction<string>>;
 }
-function LocalSearchBox({ placeName, setPlaceName }: SearchProps) {
+function LocationSearchBox({ placeName, setPlaceName }: SearchProps) {
   const [searchTearm, setSearchTearm] = useState("");
 
   return (
@@ -39,7 +39,7 @@ function LocalSearchBox({ placeName, setPlaceName }: SearchProps) {
   );
 }
 
-export default LocalSearchBox;
+export default LocationSearchBox;
 
 const InputBox = styled.div`
   width: 500px;
