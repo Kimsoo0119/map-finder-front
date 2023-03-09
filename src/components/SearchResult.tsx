@@ -55,7 +55,7 @@ function Result({ results, placeName, setResults }: Props) {
     <ResultWrapper>
       {results.map((result) => (
         <LinkWrapper key={result.title}>
-          <Link to={`/places/${result.title}`} state={result}>
+          <Link to={`/`} state={result}>
             <div>
               <h2>{result.title}</h2>
               <p>Category: {result.category}</p>

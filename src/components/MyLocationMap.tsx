@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const { naver } = window;
+
 function MyLocationMap() {
   const [currentLocation, setCurrentLocation] = useState<Partial<GeolocationCoordinates>>({
     latitude: 0,
@@ -8,7 +10,7 @@ function MyLocationMap() {
   });
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
+    const watchId = navigator.geolocation.watchPosition(
       (position) => {
         setCurrentLocation({
           latitude: position.coords.latitude,
@@ -19,6 +21,11 @@ function MyLocationMap() {
         console.error(error);
       }
     );
+
+    // watchPosition()으로 등록한 이벤트 핸들러를 해제하기 위해 watchId를 반환하는 함수를 반환
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+    };
   }, []);
 
   useEffect(() => {
@@ -29,10 +36,6 @@ function MyLocationMap() {
       center: position,
       zoom: 18,
       minZoom: 6,
-      // zoomControl: true,
-      // zoomControlOptions: {
-      //   position: naver.maps.Position.TOP_RIGHT,
-      // },
     };
 
     const map = new naver.maps.Map(container, mapOptions);
@@ -42,7 +45,6 @@ function MyLocationMap() {
       map: map,
       icon: {
         url: "https://navermaps.github.io/maps.js/docs/img/example/ico_pin.jpg",
-        //size: new naver.maps.Size(50, 52),
         origin: new naver.maps.Point(0, 0),
         anchor: new naver.maps.Point(25, 26),
       },
