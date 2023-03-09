@@ -1,7 +1,12 @@
 import styled from "@emotion/styled";
+import SearchedLocationMap from "components/SearchedLocationMap";
 
 function PlacePage() {
-  return <Container></Container>;
+  return (
+    <Container>
+      <SearchedLocationMap />
+    </Container>
+  );
 }
 export default PlacePage;
 

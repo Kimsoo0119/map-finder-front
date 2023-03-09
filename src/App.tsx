@@ -1,6 +1,6 @@
 import "../src/styles/globals.css";
 
-import MapPage from "pages/map";
+import MapPage from "pages/main";
 import LocalSearchPage from "pages/search";
 import styled, { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";

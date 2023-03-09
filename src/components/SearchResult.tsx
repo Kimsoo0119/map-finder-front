@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-type Props = {
+interface Props {
   results: SearchResult[];
   placeName: string;
   setResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
-};
+}
 
 function Result({ results, placeName, setResults }: Props) {
   const [hasResult, setHasResult] = useState<boolean>(true);
@@ -43,7 +43,7 @@ function Result({ results, placeName, setResults }: Props) {
     <ResultWrapper>
       {results.map((result) => (
         <LinkWrapper key={result.title}>
-          <Link to={`/places/${result.title}`}>
+          <Link to={`/places/${result.title}`} state={result}>
             <div>
               <h2>{result.title}</h2>
               <p>Category: {result.category}</p>
