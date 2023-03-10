@@ -1,13 +1,22 @@
 import styled from "@emotion/styled";
 import MyLocationMap from "components/MyLocationMap";
 import SearchBox from "components/SearchBox";
+import { useLocation } from "react-router-dom";
 
 function MapPage() {
+  const location = useLocation();
+
+  const placeName = location.state?.title;
+
   return (
     <Container>
-      <SearchBoxContainer>
-        <SearchBox />
-      </SearchBoxContainer>
+      {placeName ? (
+        <Title>{placeName}</Title>
+      ) : (
+        <SearchBoxContainer>
+          <SearchBox />
+        </SearchBoxContainer>
+      )}
       <MapContainer>
         <MyLocationMap />
       </MapContainer>
@@ -43,4 +52,20 @@ const SearchBoxContainer = styled.div`
   > * {
     margin: 0 auto;
   }
+`;
+
+const Title = styled.div`
+  z-index: 2;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  color: #3f3c3c;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100vh / 13);
+  background-color: #ffff;
 `;
