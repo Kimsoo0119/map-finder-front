@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import MyLocationMap from "components/MyLocationMap";
 import SearchBox from "components/SearchBox";
+
 function MapPage() {
   return (
     <Container>
@@ -15,6 +16,7 @@ function MapPage() {
 }
 
 export default MapPage;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -35,4 +37,10 @@ const SearchBoxContainer = styled.div`
   transform: translateX(-50%);
   width: 100%;
   max-width: 560px;
+  display: flex;
+  justify-content: center;
+
+  > * {
+    margin: 0 auto;
+  }
 `;
