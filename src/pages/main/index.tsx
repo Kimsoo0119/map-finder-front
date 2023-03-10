@@ -10,18 +10,28 @@ function MapPage() {
   const placeName = location.state?.title;
 
   const [showSearchBox, setShowSearchBox] = useState(!placeName);
+  const [mapInit, setMapInit] = useState<boolean>(false);
 
-  function handleInit() {
-    navigate("/");
+  function handlePrevious() {
+    navigate(-1);
+  }
+
+  function handleCancel() {
+    setMapInit(true);
     setShowSearchBox(true);
   }
 
   return (
     <Container>
       {placeName && (
-        <Title>
-          <PreButton src="/icons/arrow-back-8.svg" onClick={handleInit} />
+        <Title hidden={showSearchBox}>
+          <PreButton src="/icons/arrow-back-8.svg" onClick={handlePrevious} />
           {placeName}
+          <CancelButton
+            onClick={() => handleCancel()}
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIvPgogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMgMykiPgogICAgICAgICAgICA8Y2lyY2xlIGZpbGw9IiNDNUM1QzUiIGN4PSI5IiBjeT0iOSIgcj0iOSIvPgogICAgICAgICAgICA8cGF0aCBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGQ9Im02IDYgNi4wMDUgNi4wMDZNMTIuMDA1IDYgNiAxMi4wMDYiLz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPgo=
+"
+          />
         </Title>
       )}
       {showSearchBox && (
@@ -30,7 +40,7 @@ function MapPage() {
         </SearchBoxContainer>
       )}
       <MapContainer>
-        <MyLocationMap />
+        <MyLocationMap mapInit={mapInit} setMapInit={setMapInit} />
       </MapContainer>
     </Container>
   );
@@ -70,7 +80,7 @@ const SearchBoxContainer = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.div<{ hidden: boolean }>`
   z-index: 2;
   display: flex;
   align-items: center;
@@ -85,6 +95,7 @@ const Title = styled.div`
   height: calc(100vh / 13);
   background-color: #ffff;
   padding-left: 13px;
+  ${({ hidden }) => (hidden ? "display: none;" : "")}
 `;
 
 const PreButton = styled.img`
@@ -98,4 +109,9 @@ const PreButton = styled.img`
     height: 100%;
   }
   margin-right: 10px;
+`;
+
+const CancelButton = styled.img`
+  width: 25px;
+  height: 25px;
 `;

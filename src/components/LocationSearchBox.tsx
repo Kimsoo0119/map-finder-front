@@ -15,7 +15,7 @@ function LocationSearchBox({ placeName, setPlaceName, setResults, setIsInit }: S
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleGoBack = () => {
-    navigate(-1); // 브라우저의 이전 페이지로 이동
+    navigate("/"); // 브라우저의 이전 페이지로 이동
   };
 
   function handleInit() {

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function SearchBox() {
   const navigate = useNavigate();
+
   const handleClick = () => {
     navigate("/locals");
   };

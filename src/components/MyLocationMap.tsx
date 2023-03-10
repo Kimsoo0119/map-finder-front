@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const { naver } = window;
+interface LocationProps {
+  mapInit: boolean;
+  setMapInit: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-function MyLocationMap() {
+function MyLocationMap({ mapInit, setMapInit }: LocationProps) {
   const location = useLocation();
   const searchedPlace = location.state;
 
@@ -39,7 +43,6 @@ function MyLocationMap() {
       // 검색한 장소가 있으면 TM128 좌표계를 위도 경도 좌표계로 변환
       const tm128 = new naver.maps.Point(searchedPlace.mapX, searchedPlace.mapY);
       const latlng = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
-      console.log(latlng);
 
       position = new naver.maps.LatLng(latlng.lat(), latlng.lng());
     } else {
@@ -49,7 +52,7 @@ function MyLocationMap() {
 
     const mapOptions = {
       center: position,
-      zoom: 18,
+      zoom: 15,
       minZoom: 6,
     };
 
@@ -66,12 +69,14 @@ function MyLocationMap() {
     };
 
     const marker = new naver.maps.Marker(markerOptions);
-
+    if (mapInit) {
+      marker.setMap(null);
+    }
     // 검색한 장소가 있으면 현재 위치 마커는 그대로 유지하면서 해당 좌표로 map의 위치를 변경
     if (searchedPlace) {
       map.setCenter(position);
     }
-  }, [currentLocation, searchedPlace]);
+  }, [currentLocation, searchedPlace, mapInit]);
 
   return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
 }
