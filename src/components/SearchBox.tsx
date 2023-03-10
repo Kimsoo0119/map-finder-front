@@ -29,7 +29,6 @@ const InputBox = styled.div`
   align-items: center;
   padding: 0 15px;
   align-self: center;
-  margin-bottom: 20px;
   box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.2);
   @media (max-width: 600px) {
     width: 100%;

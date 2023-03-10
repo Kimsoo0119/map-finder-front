@@ -92,16 +92,3 @@ const Input = styled.input`
     font-size: 0.875rem;
   }
 `;
-
-const PreButton = styled.img`
-  position: absolute;
-  border: none;
-  background: inherit;
-  cursor: pointer;
-  width: 35px; /* div의 원하는 크기를 설정 */
-  height: 35px;
-  svg {
-    width: 100%; /* svg의 width와 height를 100%로 설정 */
-    height: 100%;
-  }
-`;
