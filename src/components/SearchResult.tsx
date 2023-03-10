@@ -9,9 +9,11 @@ interface Props {
   results: SearchResult[];
   placeName: string;
   setResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
+  isInit: Boolean;
+  setIsInit: React.Dispatch<React.SetStateAction<Boolean>>;
 }
 
-function Result({ results, placeName, setResults }: Props) {
+function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const [hasResult, setHasResult] = useState<boolean>(true);
 
@@ -21,6 +23,18 @@ function Result({ results, placeName, setResults }: Props) {
     }
   }, [placeName, setResults]);
 
+  useEffect(() => {
+    if (isInit) {
+      initResults();
+    }
+  }, [isInit]);
+
+  function initResults() {
+    setResults([]);
+    setLoading(false);
+    setHasResult(true);
+    setIsInit(false);
+  }
   async function fetchData() {
     try {
       setResults([]);
@@ -37,8 +51,8 @@ function Result({ results, placeName, setResults }: Props) {
         setResults(data.result);
       }
     } catch (error) {
-      setLoading(false);
       setResults([]);
+      setLoading(false);
       setHasResult(false);
     }
   }

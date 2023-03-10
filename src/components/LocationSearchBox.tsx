@@ -1,19 +1,33 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import { SearchResult } from "pages/search";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom"; // useHistory import
 
 interface SearchProps {
   placeName: string;
   setPlaceName: React.Dispatch<React.SetStateAction<string>>;
+  setResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
+  setIsInit: React.Dispatch<React.SetStateAction<Boolean>>;
 }
-function LocationSearchBox({ placeName, setPlaceName }: SearchProps) {
+function LocationSearchBox({ placeName, setPlaceName, setResults, setIsInit }: SearchProps) {
+  const navigate = useNavigate(); // useHistory 초기화
   const [searchTearm, setSearchTearm] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  const handleGoBack = () => {
+    navigate(-1); // 브라우저의 이전 페이지로 이동
+  };
+
+  function handleInit() {
+    setSearchTearm("");
+    setResults([]);
+    setIsInit(true);
+    inputRef.current?.focus();
+  }
   return (
     <InputBox>
-      <SearchIcon
-        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSIgc3Ryb2tlPSIjQzVDNUM1IiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGN4PSI2LjYxMSIgY3k9IjYuNjExIiByPSI1Ljg2MSIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTE1LjI1IDE1LjI1bC00LjI0My00LjI0MyIvPjwvZz48L3N2Zz4=
-"
-      />
+      <SearchIcon src="/icons/arrow-back-8.svg" onClick={handleGoBack}></SearchIcon>
+
       <Input
         placeholder="장소를 입력해주세요."
         maxLength={20}
@@ -24,12 +38,14 @@ function LocationSearchBox({ placeName, setPlaceName }: SearchProps) {
             setPlaceName(searchTearm);
           }
         }}
+        ref={inputRef}
         autoFocus
       />
       {searchTearm && (
         <SearchIcon
+          id="delete"
           hover
-          onClick={() => setPlaceName("")}
+          onClick={() => handleInit()}
           src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIvPgogICAgICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMgMykiPgogICAgICAgICAgICA8Y2lyY2xlIGZpbGw9IiNDNUM1QzUiIGN4PSI5IiBjeT0iOSIgcj0iOSIvPgogICAgICAgICAgICA8cGF0aCBzdHJva2U9IiNGRkYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGQ9Im02IDYgNi4wMDUgNi4wMDZNMTIuMDA1IDYgNiAxMi4wMDYiLz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPgo=
 "
         />
@@ -56,8 +72,8 @@ const InputBox = styled.div`
 `;
 
 const SearchIcon = styled.img<{ hover?: boolean }>`
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   cursor: ${({ hover }) => (hover ? "pointer" : "default")};
 `;
 
@@ -74,5 +90,18 @@ const Input = styled.input`
   ::placeholder {
     color: #999;
     font-size: 0.875rem;
+  }
+`;
+
+const PreButton = styled.img`
+  position: absolute;
+  border: none;
+  background: inherit;
+  cursor: pointer;
+  width: 35px; /* div의 원하는 크기를 설정 */
+  height: 35px;
+  svg {
+    width: 100%; /* svg의 width와 height를 100%로 설정 */
+    height: 100%;
   }
 `;

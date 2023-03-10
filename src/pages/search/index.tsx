@@ -2,7 +2,6 @@ import LocationSearchBox from "components/LocationSearchBox";
 import styled from "styled-components";
 import { useState } from "react";
 import Result from "components/SearchResult";
-import { useNavigate } from "react-router-dom"; // useHistory import
 
 export interface SearchResult {
   title: string;
@@ -14,20 +13,25 @@ export interface SearchResult {
 function LocalSearchPage() {
   const [placeName, setPlaceName] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
-  const navigate = useNavigate(); // useHistory 초기화
-
-  const handleGoBack = () => {
-    navigate(-1); // 브라우저의 이전 페이지로 이동
-  };
-
+  const [isInit, setIsInit] = useState<Boolean>(false);
   return (
     <Container>
       <SearchBoxContainer id="search">
-        <PreButton src="/icons/arrow-back-8.svg" onClick={handleGoBack}></PreButton>{" "}
-        <LocationSearchBox placeName={placeName} setPlaceName={setPlaceName} />
+        <LocationSearchBox
+          placeName={placeName}
+          setPlaceName={setPlaceName}
+          setResults={setResults}
+          setIsInit={setIsInit}
+        />
       </SearchBoxContainer>
       <SearchResultContainer>
-        <Result results={results} placeName={placeName} setResults={setResults} />
+        <Result
+          results={results}
+          placeName={placeName}
+          setResults={setResults}
+          isInit={isInit}
+          setIsInit={setIsInit}
+        />
       </SearchResultContainer>
     </Container>
   );
@@ -54,18 +58,4 @@ const SearchBoxContainer = styled.div`
   button {
     margin-right: 10px; /* 버튼과 검색박스 사이 간격 추가 */
   }
-`;
-
-const PreButton = styled.img`
-  position: absolute;
-  border: none;
-  background: inherit;
-  cursor: pointer;
-  width: 35px; /* div의 원하는 크기를 설정 */
-  height: 35px;
-  svg {
-    width: 100%; /* svg의 width와 height를 100%로 설정 */
-    height: 100%;
-  }
-  left: 10px; /* 검색창 왼쪽으로 10px 이동 */
 `;
