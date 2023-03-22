@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import MyLocationMap from "components/MyLocationMap";
+import Map from "components/Map";
 import SearchBox from "components/SearchBox";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -40,7 +40,7 @@ function MapPage() {
         </SearchBoxContainer>
       )}
       <MapContainer>
-        <MyLocationMap mapInit={mapInit} setMapInit={setMapInit} />
+        <Map mapInit={mapInit} setMapInit={setMapInit} />
       </MapContainer>
     </Container>
   );

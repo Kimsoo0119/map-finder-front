@@ -7,7 +7,7 @@ interface LocationProps {
   setMapInit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function MyLocationMap({ mapInit, setMapInit }: LocationProps) {
+function Map({ mapInit, setMapInit }: LocationProps) {
   const location = useLocation();
   const searchedPlace = location.state;
   const mapRef = useRef<HTMLElement | null | any>(null);
@@ -15,11 +15,15 @@ function MyLocationMap({ mapInit, setMapInit }: LocationProps) {
     latitude: 0,
     longitude: 0,
   });
+  const positions: any[] = [];
+  const [markers, setMarkers] = useState<any[]>([]);
 
   useEffect(() => {
+    //첫 마운트 시 현재위치를 받아오는 기능
     navigator.geolocation.getCurrentPosition((position) => {
-      createMap(position);
+      createMap(position); // 현재 포지션을 기준으로 지도 생성, mapRef에 map 정보 저장 이후 수정에 용이
     });
+    //현재 위치를 계속 받아오는 기능 위치가 이동할때마다 latLon변경
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
         setCurrentLocation({
@@ -32,6 +36,7 @@ function MyLocationMap({ mapInit, setMapInit }: LocationProps) {
       }
     );
     return () => {
+      //마운트 해제시 watchPosition 해제
       navigator.geolocation.clearWatch(watchId);
     };
   }, []);
@@ -42,24 +47,71 @@ function MyLocationMap({ mapInit, setMapInit }: LocationProps) {
       center: naver.maps.LatLng(position.coords.latitude, position.coords.longitude),
     });
 
-    mapRef.current = new naver.maps.Marker({
-      position: new naver.maps.LatLng(position.coords.latitude, position.coords.longitude),
-      map: mapRef.current,
-      icon: {
-        url: "https://navermaps.github.io/maps.js/docs/img/example/ico_pin.jpg",
-        origin: new naver.maps.Point(0, 0),
-        anchor: new naver.maps.Point(25, 26),
-      },
-    });
+    setMarkers([
+      new naver.maps.Marker({
+        position: new naver.maps.LatLng(position.coords.latitude, position.coords.longitude),
+        map: mapRef.current,
+      }),
+    ]);
+  }
+
+  useEffect(() => {
+    if (markers[0]) {
+      const marker = markers[0];
+      const latLng = convertLatlng(currentLocation);
+      marker.setPosition(latLng);
+    }
+
+    if (searchedPlace) {
+      const tm128 = new naver.maps.Point(searchedPlace.mapX, searchedPlace.mapY);
+      const { x, y } = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
+
+      if ((x != markers[1]?.position.x && y != markers[1]?.position.y) || !markers[1]) {
+        console.log(markers);
+
+        const searchedPlaceLocation = new naver.maps.Marker({
+          position: new naver.maps.LatLng({ lat: y, lng: x }),
+          map: mapRef.current,
+        });
+
+        const center = new naver.maps.LatLng({ lat: y, lng: x });
+
+        mapRef.current?.setCenter(center);
+
+        setMarkers([markers[0], searchedPlaceLocation]);
+      }
+    }
+  }, [currentLocation, searchedPlace]);
+
+  function convertLatlng(location: Partial<GeolocationCoordinates>) {
+    const latLng = {
+      x: location.longitude,
+      y: location.latitude,
+      _lat: location.latitude,
+      _lng: location.longitude,
+    };
+    return latLng;
+  }
+  function updateMarker(positions: any[]) {
+    try {
+      positions.map((position) => {
+        new naver.maps.Marker({
+          map: mapRef.current,
+          position: new naver.maps.LatLng(position.latitude, position.longitude),
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // useEffect(() => {
   //   const container = document.getElementById("map"); // 지도를 표시할 div
 
   //   if (searchedPlace) {
-  //     const tm128 = new naver.maps.Point(searchedPlace.mapX, searchedPlace.mapY);
-  //     const latlng = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
-  //     const position = new naver.maps.LatLng(latlng.lat(), latlng.lng());
+  // const tm128 = new naver.maps.Point(searchedPlace.mapX, searchedPlace.mapY);
+  // const latlng = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
+  // const position = new naver.maps.LatLng(latlng.lat(), latlng.lng());
 
   //     const mapOptions = {
   //       center: position,
@@ -153,4 +205,4 @@ function MyLocationMap({ mapInit, setMapInit }: LocationProps) {
   return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
 }
 
-export default MyLocationMap;
+export default Map;
