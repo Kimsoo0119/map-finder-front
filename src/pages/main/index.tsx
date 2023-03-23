@@ -1,16 +1,31 @@
 import styled from "@emotion/styled";
 import Map from "components/Map";
+import PlaceDetails from "components/PlaceDetails";
 import SearchBox from "components/SearchBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+export interface SearchedPlace {
+  address: string;
+  category: string;
+  mapX: string;
+  mapY: string;
+  telephone: string;
+  title: string;
+}
 function MapPage() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchedPlace, setSearchedPlace] = useState<SearchedPlace>();
   const placeName = location.state?.title;
-
   const [showSearchBox, setShowSearchBox] = useState(!placeName);
   const [mapInit, setMapInit] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (location.state?.title) {
+      setSearchedPlace(location.state);
+    }
+  }, [location.state]);
 
   function handlePrevious() {
     navigate(-1);
@@ -34,6 +49,8 @@ function MapPage() {
           />
         </Title>
       )}
+
+      {placeName && <PlaceDetails searchedPlace={searchedPlace} />}
       {showSearchBox && (
         <SearchBoxContainer>
           <SearchBox />
