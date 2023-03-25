@@ -50,7 +50,12 @@ function MapPage() {
         </Title>
       )}
 
-      {placeName && <PlaceDetails searchedPlace={searchedPlace} />}
+      {placeName && (
+        <Place hidden={showSearchBox}>
+          <Resizer></Resizer>
+          <PlaceDetails searchedPlace={searchedPlace} />
+        </Place>
+      )}
       {showSearchBox && (
         <SearchBoxContainer>
           <SearchBox />
@@ -87,7 +92,6 @@ const SearchBoxContainer = styled.div`
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-
   max-width: 560px;
   display: flex;
   justify-content: center;
@@ -113,6 +117,34 @@ const Title = styled.div<{ hidden: boolean }>`
   background-color: #ffff;
   padding-left: 13px;
   ${({ hidden }) => (hidden ? "display: none;" : "")}
+`;
+
+const Place = styled.div<{ hidden: boolean }>`
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  background-color: #ffff;
+  border-top: 1px solid #000;
+
+  ${({ hidden }) => (hidden ? "display: none;" : "")}
+`;
+
+const Resizer = styled.div`
+  position: relative;
+  height: 10px;
+  width: 100%;
+  background-color: #1234;
+  cursor: row-resize; // 마우스 커서를 row-resize로 변경합니다.
 `;
 
 const PreButton = styled.img`
