@@ -41,14 +41,16 @@ function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
       setLoading(true);
       setHasResult(true);
 
-      const { data } = await axios.get(`http://localhost:5000/places/${placeName}`);
+      const { data } = await axios.get(`http://localhost:3005/places/${placeName}`);
+      console.log(data);
+
       setLoading(false);
-      if (data.result.length === 0) {
+      if (data.length === 0) {
         setHasResult(false);
         setResults([]);
       } else {
         setHasResult(true);
-        setResults(data.result);
+        setResults(data);
       }
     } catch (error) {
       setResults([]);

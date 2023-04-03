@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import axios from "axios";
 import Map from "components/Map";
 import PlaceDetails from "components/PlaceDetails";
 import SearchBox from "components/SearchBox";
@@ -26,6 +27,19 @@ function MapPage() {
       setSearchedPlace(location.state);
     }
   }, [location.state]);
+
+  useEffect(() => {
+    fetchData();
+  }, [searchedPlace]);
+
+  async function fetchData() {
+    if (searchedPlace) {
+      const { address, category, title, telephone }: SearchedPlace = searchedPlace;
+      const { data } = await axios.get(`http://localhost:3005/places/`, {
+        params: { address, category, title, telephone },
+      });
+    }
+  }
 
   function handlePrevious() {
     navigate(-1);
