@@ -28,19 +28,6 @@ function MapPage() {
     }
   }, [location.state]);
 
-  useEffect(() => {
-    fetchData();
-  }, [searchedPlace]);
-
-  async function fetchData() {
-    if (searchedPlace) {
-      const { address, category, title, telephone }: SearchedPlace = searchedPlace;
-      const { data } = await axios.get(`http://localhost:3005/places/`, {
-        params: { address, category, title, telephone },
-      });
-    }
-  }
-
   function handlePrevious() {
     navigate(-1);
   }
@@ -66,7 +53,6 @@ function MapPage() {
 
       {placeName && (
         <Place hidden={showSearchBox}>
-          <Resizer></Resizer>
           <PlaceDetails searchedPlace={searchedPlace} />
         </Place>
       )}
@@ -109,8 +95,7 @@ const SearchBoxContainer = styled.div`
   max-width: 560px;
   display: flex;
   justify-content: center;
-
-  > * {
+  bottom: 0 > * {
     margin: 0 auto;
   }
 `;
@@ -134,10 +119,10 @@ const Title = styled.div<{ hidden: boolean }>`
 `;
 
 const Place = styled.div<{ hidden: boolean }>`
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
-
+  border-radius: 13px 13px 0 0;
   align-items: center;
 
   left: 50%;
@@ -146,9 +131,9 @@ const Place = styled.div<{ hidden: boolean }>`
   position: absolute;
   bottom: 0;
   width: 100%;
+  max-height: 96vh;
 
   background-color: #ffff;
-  border-top: 1px solid #000;
 
   ${({ hidden }) => (hidden ? "display: none;" : "")}
 `;

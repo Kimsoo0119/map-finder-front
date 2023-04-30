@@ -35,22 +35,23 @@ function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
     setHasResult(true);
     setIsInit(false);
   }
+
   async function fetchData() {
     try {
       setResults([]);
       setLoading(true);
       setHasResult(true);
+      // console.log(placeName);
 
-      const { data } = await axios.get(`http://localhost:3005/places/${placeName}`);
-      console.log(data);
+      const { data: places } = await axios.get(`http://localhost:3005/places/${placeName}`);
 
       setLoading(false);
-      if (data.length === 0) {
+      if (places.length === 0) {
         setHasResult(false);
         setResults([]);
       } else {
         setHasResult(true);
-        setResults(data);
+        setResults(places);
       }
     } catch (error) {
       setResults([]);
