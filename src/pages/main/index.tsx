@@ -79,6 +79,7 @@ const Container = styled.div`
 const MapContainer = styled.div`
   z-index: 1;
   flex: 1;
+  height:100vh
   position: relative;
 `;
 
