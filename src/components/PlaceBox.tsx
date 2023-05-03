@@ -8,7 +8,7 @@ interface SearchedPlaceProps {
   searchedPlace: SearchedPlace | undefined;
 }
 
-function PlaceDetails({ searchedPlace }: SearchedPlaceProps) {
+function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
   const [firstHeight, setFirstHeight] = useState<number>(0);
   const [showSearchPlaceCard, setShowSearchPlaceCard] = useState<boolean>(false);
 
@@ -57,7 +57,6 @@ function PlaceDetails({ searchedPlace }: SearchedPlaceProps) {
       ref.style.height = "100vh";
     } else {
       // 살짝 튕길때
-
       ref.style.height = "20vh";
     }
   }
@@ -152,4 +151,4 @@ const IconWrapper = styled.div`
   height: 30px;
 `;
 
-export default PlaceDetails;
+export default PlaceBox;

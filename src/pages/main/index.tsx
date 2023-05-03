@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import Map from "components/Map";
-import PlaceDetails from "components/PlaceDetails";
+import PlaceBox from "components/PlaceBox";
 import SearchBox from "components/SearchBox";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -55,7 +55,7 @@ function MapPage() {
 
       {placeName && (
         <Place id="place" hidden={showSearchBox}>
-          <PlaceDetails searchedPlace={searchedPlace} />
+          <PlaceBox searchedPlace={searchedPlace} />
         </Place>
       )}
       {showSearchBox && (
