@@ -28,6 +28,8 @@ function MapPage() {
     }
   }, [location.state]);
 
+  useEffect(() => {});
+
   function handlePrevious() {
     navigate(-1);
   }
@@ -40,7 +42,7 @@ function MapPage() {
   return (
     <Container>
       {placeName && (
-        <Title hidden={showSearchBox}>
+        <Title id="title" hidden={showSearchBox}>
           <PreButton src="/icons/arrow-back-8.svg" onClick={handlePrevious} />
           {placeName}
           <CancelButton
@@ -52,7 +54,7 @@ function MapPage() {
       )}
 
       {placeName && (
-        <Place hidden={showSearchBox}>
+        <Place id="place" hidden={showSearchBox}>
           <PlaceDetails searchedPlace={searchedPlace} />
         </Place>
       )}
@@ -132,19 +134,11 @@ const Place = styled.div<{ hidden: boolean }>`
   position: absolute;
   bottom: 0;
   width: 100%;
-  max-height: 96vh;
+  max-height: 100vh;
 
   background-color: #ffff;
 
   ${({ hidden }) => (hidden ? "display: none;" : "")}
-`;
-
-const Resizer = styled.div`
-  position: relative;
-  height: 10px;
-  width: 100%;
-  background-color: #1234;
-  cursor: row-resize; // 마우스 커서를 row-resize로 변경합니다.
 `;
 
 const PreButton = styled.img`
