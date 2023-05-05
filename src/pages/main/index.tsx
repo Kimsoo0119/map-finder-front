@@ -127,10 +127,6 @@ const Place = styled.div<{ hidden: boolean }>`
   flex-direction: column;
   border-radius: 13px 13px 0 0;
   align-items: center;
-
-  left: 50%;
-  transform: translateX(-50%);
-
   position: absolute;
   bottom: 0;
   width: 100%;
