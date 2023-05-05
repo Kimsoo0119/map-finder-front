@@ -1,31 +1,19 @@
 import axios from "axios";
 import { SearchedPlace } from "pages/main";
 import { Resizable } from "re-resizable";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import PlaceDetails from "./PlaceDetails";
 
-interface SearchedPlaceProps {
+export interface SearchedPlaceProps {
   searchedPlace: SearchedPlace | undefined;
 }
 
 function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
   const [firstHeight, setFirstHeight] = useState<number>(0);
   const [showSearchPlaceCard, setShowSearchPlaceCard] = useState<boolean>(false);
-
-  useEffect(() => {
-    fetchData();
-  }, [searchedPlace]);
-
-  async function fetchData() {
-    try {
-      if (searchedPlace) {
-        const { address, category, title, telephone }: SearchedPlace = searchedPlace;
-        // const data = await axios.get(`http://localhost:3005/places/`, {
-        //   params: { address, category, title, telephone },
-        // });
-      }
-    } catch (error) {}
-  }
+  const [showPlaceDetails, setShowPlaceDetails] = useState<boolean>(true);
+  const resizableRef = useRef<HTMLElement | null | undefined>(null);
 
   function handleResizeStart(elementRef: HTMLElement) {
     const height = parseInt(elementRef.style.height || "0", 10);
@@ -48,9 +36,12 @@ function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
       ref.style.height = "20vh";
       setFirstHeight(0);
       setShowSearchPlaceCard(false);
+      setShowPlaceDetails(true);
     } else if (height >= 40 && placeContainer) {
       //화면을 올릴때
       setShowSearchPlaceCard(true);
+      setShowPlaceDetails(false);
+
       titleContainer?.setProperty("display", "none");
       placeContainer?.setProperty("border-radius", " 0 0 0 0");
 
@@ -64,11 +55,15 @@ function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
   function handleResize() {
     if (showSearchPlaceCard) {
       setShowSearchPlaceCard(false);
+      setShowPlaceDetails(true);
     }
   }
 
   return (
     <Resizable
+      ref={(ref) => {
+        resizableRef.current = ref?.resizable;
+      }}
       enable={resizableEnable}
       style={style.resizable}
       defaultSize={{ width: `100%`, height: `20vh` }}
@@ -97,6 +92,15 @@ function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
           <div style={{ flex: "3", backgroundColor: "gray" }}>사진입니다</div>
         </SearchedPlaceCard>
       </PlaceCardContainer>
+      <PlaceDetailsContainer hidden={showPlaceDetails}>
+        <PlaceDetails
+          searchedPlace={searchedPlace}
+          setFirstHeight={setFirstHeight}
+          setShowSearchPlaceCard={setShowSearchPlaceCard}
+          setShowPlaceDetails={setShowPlaceDetails}
+          resizableRef={resizableRef}
+        />
+      </PlaceDetailsContainer>
     </Resizable>
   );
 }
@@ -130,6 +134,13 @@ const PlaceCardContainer = styled.div<{ hidden: boolean }>`
   padding-bottom: 1vh;
   padding-right: 1vh;
   padding-left: 1vh;
+  position: relative;
+  ${({ hidden }) => (hidden ? "display: none;" : "")};
+`;
+
+const PlaceDetailsContainer = styled.div<{ hidden: boolean }>`
+  width: 100%;
+
   position: relative;
   ${({ hidden }) => (hidden ? "display: none;" : "")};
 `;
