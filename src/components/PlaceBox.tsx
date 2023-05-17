@@ -4,6 +4,7 @@ import { Resizable } from "re-resizable";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import PlaceDetails from "./PlaceDetails";
+import { PlaceDetail } from "common/interface/interface";
 
 export interface SearchedPlaceProps {
   searchedPlace: SearchedPlace | undefined;
@@ -14,6 +15,7 @@ function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
   const [showSearchPlaceCard, setShowSearchPlaceCard] = useState<boolean>(false);
   const [showPlaceDetails, setShowPlaceDetails] = useState<boolean>(true);
   const resizableRef = useRef<HTMLElement | null | undefined>(null);
+  const [placeDetail, setPlaceDetail] = useState<PlaceDetail>();
 
   function handleResizeStart(elementRef: HTMLElement) {
     const height = parseInt(elementRef.style.height || "0", 10);
@@ -89,7 +91,9 @@ function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
             <h3 style={{ color: "gray" }}>{searchedPlace?.category}</h3>
             <h5 style={{ color: "gray" }}>{searchedPlace?.address}</h5>
           </div>
-          <div style={{ flex: "3", backgroundColor: "gray" }}>사진입니다</div>
+          <div style={{ flex: "3", backgroundColor: "gray" }}>
+            <img width={"100%"} height={"100%"} src={placeDetail?.thumUrl} />
+          </div>
         </SearchedPlaceCard>
       </PlaceCardContainer>
       <PlaceDetailsContainer hidden={showPlaceDetails}>
@@ -99,6 +103,8 @@ function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
           setShowSearchPlaceCard={setShowSearchPlaceCard}
           setShowPlaceDetails={setShowPlaceDetails}
           resizableRef={resizableRef}
+          placeDetail={placeDetail}
+          setPlaceDetail={setPlaceDetail}
         />
       </PlaceDetailsContainer>
     </Resizable>

@@ -7,4 +7,5 @@ export interface PlaceDetail {
   starts?: number;
   naverReviewerCounts?: string;
   naverStars?: string;
+  thumUrl?: string;
 }

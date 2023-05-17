@@ -86,6 +86,8 @@ const MapContainer = styled.div`
 `;
 
 const SearchBoxContainer = styled.div`
+  padding-right: 2vh;
+  padding-left: 2vh;
   z-index: 2;
   height: 10vh;
   display: flex;

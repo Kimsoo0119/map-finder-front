@@ -4,13 +4,14 @@ import { SearchedPlace } from "pages/main";
 import axios from "axios";
 import { PlaceDetail } from "common/interface/interface";
 import styled from "styled-components";
-import { Resizable } from "re-resizable";
 
 interface PlaceDetailsProps extends SearchedPlaceProps {
   setFirstHeight: React.Dispatch<React.SetStateAction<number>>;
   setShowSearchPlaceCard: React.Dispatch<React.SetStateAction<boolean>>;
   setShowPlaceDetails: React.Dispatch<React.SetStateAction<boolean>>;
   resizableRef: React.MutableRefObject<HTMLElement | null | undefined>;
+  setPlaceDetail: React.Dispatch<React.SetStateAction<PlaceDetail | undefined>>;
+  placeDetail: PlaceDetail | undefined;
 }
 
 function PlaceDetails({
@@ -19,8 +20,9 @@ function PlaceDetails({
   setShowSearchPlaceCard,
   setShowPlaceDetails,
   resizableRef,
+  setPlaceDetail,
+  placeDetail,
 }: PlaceDetailsProps) {
-  const [placeDetail, setPlaceDetail] = useState<PlaceDetail>();
   async function fetchPlaceData() {
     try {
       if (searchedPlace) {
@@ -32,16 +34,19 @@ function PlaceDetails({
           setPlaceDetail(data);
         }
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
     fetchPlaceData();
   }, [searchedPlace]);
 
-  useEffect(() => {
-    console.log("placeDetail:", placeDetail);
-  }, [placeDetail]);
+  // useEffect(() => {
+  //   console.log(":", placeDetail);
+  // }, [placeDetail]);
+  // placeDetail;
 
   function handleDown() {
     const titleContainer = document.getElementById("title")?.style;

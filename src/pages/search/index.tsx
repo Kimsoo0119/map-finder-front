@@ -50,6 +50,8 @@ const SearchResultContainer = styled.div`
 `;
 
 const SearchBoxContainer = styled.div`
+  padding-right: 2vh;
+  padding-left: 2vh;
   flex: 1;
   display: flex;
   justify-content: center;
