@@ -13,6 +13,8 @@ interface Props {
   setIsInit: React.Dispatch<React.SetStateAction<Boolean>>;
 }
 
+const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
+
 function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const [hasResult, setHasResult] = useState<boolean>(true);
@@ -41,9 +43,8 @@ function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
       setResults([]);
       setLoading(true);
       setHasResult(true);
-      // console.log(placeName);
 
-      const { data: places } = await axios.get(`http://localhost:3005/places/${placeName}`);
+      const { data: places } = await axios.get(`${backEndUrl}/places/${placeName}`);
 
       setLoading(false);
       if (places.length === 0) {

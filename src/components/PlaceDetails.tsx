@@ -14,6 +14,8 @@ interface PlaceDetailsProps extends SearchedPlaceProps {
   placeDetail: PlaceDetail | undefined;
 }
 
+const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
+
 function PlaceDetails({
   searchedPlace,
   setFirstHeight,
@@ -27,7 +29,7 @@ function PlaceDetails({
     try {
       if (searchedPlace) {
         const { address, category, title, telephone }: SearchedPlace = searchedPlace;
-        const { data } = await axios.get(process.env.REACT_APP_BACKEND_SERVER + "/places", {
+        const { data } = await axios.get(backEndUrl + "/places", {
           params: { address, category, title, telephone },
         });
         if (data) {
