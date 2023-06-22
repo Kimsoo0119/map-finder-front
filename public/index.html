@@ -10,6 +10,16 @@
       type="text/javascript"
       src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=%REACT_APP_CLIENT_ID%&submodules=geocoder"
     ></script>
+    <script
+      src="https://t1.kakaocdn.net/kakao_js_sdk/2.2.0/kakao.min.js"
+      integrity="sha384-x+WG2i7pOR+oWb6O5GV5f1KN2Ko6N7PTGPS7UlasYWNxZMKQA63Cj/B2lbUmUfuC"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      Kakao.init("%REACT_APP_KAKAO_JAVASCRIPT_KEY%");
+      console.log("성공여부: ", Kakao.isInitialized());
+    </script>
+
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
     <title>React App</title>
