@@ -28,7 +28,8 @@ export function KakaoCallBack() {
 
   async function getJwtToken(authorizationCode: any) {
     const { data } = await axios.get(
-      `${backEndUrl}/auth/signin/kakao?authorizationCode=${authorizationCode}`
+      `${backEndUrl}/auth/signin/kakao?authorizationCode=${authorizationCode}`,
+      { withCredentials: true }
     );
     setToken(data);
   }
