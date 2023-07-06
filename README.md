@@ -20,10 +20,12 @@
     <img src="https://img.shields.io/badge/Nest.js-E0234E?style=flat&logo=NestJS&logoColor=white"/>
     <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=Prisma&logoColor=white"/>
     <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=PostgreSQL&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white"/>
   <h3>Cloud</h3>
     <img src="https://img.shields.io/badge/AmazonEC2-FF9900?style=flat-square&logo=AmazonEC2&logoColor=white"/>
     <img src="https://img.shields.io/badge/AmazonS3-569A31?style=flat-square&logo=AmazonS3&logoColor=white"/>
     <img src="https://img.shields.io/badge/AmazonRDS-527FFF?style=flat-square&logo=AmazonRDS&logoColor=white"/>
+    <img src="https://img.shields.io/badge/AmazonElasticCahe-232F3E?style=flat-square&logo=amazonaws&logoColor=white"/>
   <h3>OpenAPI</h3>
     <img src="https://img.shields.io/badge/Naver%20Search-03C75A?style=flat-square&logo=NAVER&logoColor=white"/>
     <img src="https://img.shields.io/badge/Naver%20Map-03C75A?style=flat-square&logo=NAVER&logoColor=white"/>
