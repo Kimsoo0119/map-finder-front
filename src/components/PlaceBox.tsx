@@ -92,7 +92,7 @@ function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
             <h5 style={{ color: "gray" }}>{searchedPlace?.address}</h5>
           </div>
           <div style={{ flex: "3", backgroundColor: "gray" }}>
-            <img width={"100%"} height={"100%"} src={placeDetail?.thumUrl} />
+            <img width={"100%"} height={"100%"} src={placeDetail?.thum_url} />
           </div>
         </SearchedPlaceCard>
       </PlaceCardContainer>

@@ -75,7 +75,7 @@ function PlaceDetails({
         {searchedPlace && <h1>{searchedPlace.title}</h1>}
         {placeDetail && (
           <h4>
-            별점{placeDetail.naverStars} ({placeDetail.naverReviewerCounts})
+            별점{placeDetail.naver_stars} ({placeDetail.naver_reviewer_counts})
           </h4>
         )}
       </PlaceMain>
