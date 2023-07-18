@@ -5,7 +5,7 @@ export interface PlaceDetail {
   category: string;
   telephone?: string;
   starts?: number;
-  naverReviewerCounts?: string;
-  naverStars?: string;
-  thumUrl?: string;
+  naver_reviewer_counts?: string;
+  naver_stars?: string;
+  thum_url?: string;
 }
