@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SearchedPlace } from "pages/main";
+import { SearchedPlace } from "pages/map";
 import { Resizable } from "re-resizable";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";

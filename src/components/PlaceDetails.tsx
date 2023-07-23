@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { SearchedPlaceProps } from "./PlaceBox";
-import { SearchedPlace } from "pages/main";
+import { SearchedPlace } from "pages/map";
 import axios from "axios";
 import { PlaceDetail } from "common/interface/interface";
 import styled from "styled-components";

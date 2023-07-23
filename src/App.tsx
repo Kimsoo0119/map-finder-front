@@ -1,11 +1,12 @@
 import "../src/styles/globals.css";
 
-import MapPage from "pages/main";
+import MapPage from "pages/map";
 import LocalSearchPage from "pages/search";
 import styled, { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { KakaoCallBack } from "components/kakao/KakaoCallback";
 import { SignInPage } from "pages/signin";
+import MainPage from "pages/main";
 
 const GlobalStyle = createGlobalStyle`
   html, body, #root {
@@ -26,6 +27,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MapPage />} />
+          <Route path="/main" element={<MainPage />} />
           <Route path="/locals" element={<LocalSearchPage />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/kakao-oauth" element={<KakaoCallBack />} />
