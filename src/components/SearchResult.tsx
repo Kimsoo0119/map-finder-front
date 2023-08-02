@@ -44,7 +44,7 @@ function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
       setLoading(true);
       setHasResult(true);
 
-      const { data: places } = await axios.get(`${backEndUrl}/places/${placeName}`);
+      const { data: places } = await axios.get(`${backEndUrl}/places/list/${placeName}`);
 
       setLoading(false);
       if (places.length === 0) {
