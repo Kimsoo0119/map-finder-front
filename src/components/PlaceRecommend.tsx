@@ -73,6 +73,7 @@ function PlaceRecommend() {
       }
     );
   }
+
   const slickSettings = {
     infinite: true,
     speed: 500,
@@ -107,8 +108,13 @@ function PlaceRecommend() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 20px;
+  height: auto;
+  padding: 15px;
+  background-color: #ffffff;
+  width: 96%;
+  border-radius: 10px;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const DivPre = styled.div`
@@ -131,8 +137,8 @@ const DivNext = styled.div`
 
 const TopContainer = styled.div`
   display: flex;
-  align-items: center; /* 세로 가운데 정렬 */
-  justify-content: space-between; /* 버튼이 양쪽 끝으로 보이도록 수정 */
+  align-items: center;
+  justify-content: space-between;
   margin: 0 auto;
   width: 100%;
   margin-bottom: 3px;

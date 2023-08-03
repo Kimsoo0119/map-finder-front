@@ -29,6 +29,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100%;
+  background-color: #f3f2f2;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MainTopBar = styled.div`

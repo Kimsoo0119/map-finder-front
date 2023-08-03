@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 function PlaceCard({ place }: { place: any }) {
   const { title, address, thum_url, place_category } = place;
 
-  const Card = styled.div`
+  const Container = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -53,17 +54,27 @@ function PlaceCard({ place }: { place: any }) {
   `;
 
   return (
-    <Card>
-      <CardImage>
-        <img src={thum_url} alt={title} />
-      </CardImage>
-      <CardText>
-        <h4>{title}</h4>
-        <p>{place_category.sub}</p>
-        <p>{address}</p>
-      </CardText>
-    </Card>
+    <Container>
+      <LinkWrapper>
+        <Link to={`/`} state={place}>
+          <CardImage>
+            <img src={thum_url} alt={title} />
+          </CardImage>
+          <CardText>
+            <h4>{title}</h4>
+            <p>{place_category.sub}</p>
+            <p>{address}</p>
+          </CardText>
+        </Link>
+      </LinkWrapper>
+    </Container>
   );
 }
 
+const LinkWrapper = styled.div`
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+`;
 export default PlaceCard;
