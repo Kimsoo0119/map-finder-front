@@ -5,33 +5,28 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PlaceCard from "./PlaceCard";
+import { PlaceCoordinates } from "common/interface/place-interface";
+import LoadingSpinner from "./LoadingSpinner";
 
 const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
 
-function PlaceRecommend() {
-  const [longitude, setLongitude] = useState<number>(0);
-  const [latitude, setLatitude] = useState<number>(0);
-  const [userAddress, setUserAddress] = useState<string>();
-  const [recommendedPlaces, setRecommendedPlaces] = useState<any[]>([]); // Change 'any' to the appropriate type for restaurant data
-  const slickRef = useRef<Slider | null>(null);
+interface PlaceRecommendProps {
+  userCoordinates: PlaceCoordinates;
+}
 
+function PlaceRecommend({ userCoordinates }: PlaceRecommendProps) {
+  const [userAddress, setUserAddress] = useState<string>();
+  const [recommendedPlaces, setRecommendedPlaces] = useState<any[]>([]);
+  const slickRef = useRef<Slider | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const previous = useCallback(() => slickRef.current?.slickPrev(), []);
   const next = useCallback(() => slickRef.current?.slickNext(), []);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLongitude(position.coords.longitude);
-        setLatitude(position.coords.latitude);
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (longitude && latitude) {
+    if (userCoordinates) {
       getUserAddress();
     }
-  }, [longitude, latitude]);
+  }, [userCoordinates]);
 
   useEffect(() => {
     if (userAddress) {
@@ -41,24 +36,25 @@ function PlaceRecommend() {
 
   async function getRecommendedPlaces() {
     try {
+      setLoading(true); // Set loading to true before fetching data
       const response = await axios.get(
         backEndUrl + `/places/recommended/list/${userAddress}/restaurant`
       );
       if (response.data) {
-        console.log(response.data);
-
-        setRecommendedPlaces(response.data); // Assuming the response data is an array of restaurants
+        setRecommendedPlaces(response.data);
       } else {
         console.log("서버정보 불러오기 실패");
       }
     } catch (error) {
       console.error("Error fetching recommended places:", error);
+    } finally {
+      setLoading(false); // Set loading to false whether the fetch is successful or not.
     }
   }
 
   async function getUserAddress() {
     await naver.maps.Service.reverseGeocode(
-      { coords: new naver.maps.LatLng(latitude, longitude) },
+      { coords: new naver.maps.LatLng(userCoordinates.latitude, userCoordinates.longitude) },
       (status, response) => {
         if (status !== naver.maps.Service.Status.OK) {
           return;
@@ -73,7 +69,6 @@ function PlaceRecommend() {
       }
     );
   }
-
   const slickSettings = {
     infinite: true,
     speed: 500,
@@ -96,11 +91,17 @@ function PlaceRecommend() {
         </DivNext>
       </TopContainer>
 
-      <StyledSlider {...slickSettings} ref={slickRef}>
-        {recommendedPlaces.map((restaurant) => (
-          <PlaceCard key={restaurant.id} place={restaurant} />
-        ))}
-      </StyledSlider>
+      {loading ? (
+        <LoadingSpinnerContainer>
+          <LoadingSpinner />
+        </LoadingSpinnerContainer>
+      ) : (
+        <StyledSlider {...slickSettings} ref={slickRef}>
+          {recommendedPlaces.map((restaurant) => (
+            <PlaceCard key={restaurant.id} place={restaurant} />
+          ))}
+        </StyledSlider>
+      )}
     </Container>
   );
 }
@@ -154,9 +155,16 @@ const StyledSlider = styled(Slider)`
     display: none;
   }
   .slick-slide div {
-    //슬라이더  컨텐츠
     cursor: pointer;
   }
+`;
+
+const LoadingSpinnerContainer = styled.div`
+  display: flex;
+  height: 25vh;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default PlaceRecommend;

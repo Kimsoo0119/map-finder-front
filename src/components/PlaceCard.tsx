@@ -56,7 +56,7 @@ function PlaceCard({ place }: { place: any }) {
   return (
     <Container>
       <LinkWrapper>
-        <Link to={`/`} state={place}>
+        <Link to={`/place`} state={place}>
           <CardImage>
             <img src={thum_url} alt={title} />
           </CardImage>

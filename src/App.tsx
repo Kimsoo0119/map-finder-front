@@ -26,8 +26,8 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MapPage />} />
-          <Route path="/main" element={<MainPage />} />
+          <Route path="/" element={<MainPage />} />
+          <Route path="/place" element={<MapPage />} />
           <Route path="/locals" element={<LocalSearchPage />} />
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/kakao-oauth" element={<KakaoCallBack />} />

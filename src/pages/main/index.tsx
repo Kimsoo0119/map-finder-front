@@ -1,14 +1,29 @@
 import styled from "@emotion/styled";
+import { PlaceCoordinates } from "common/interface/place-interface";
 import PlaceRecommend from "components/PlaceRecommend";
 import { KakaoSignIn } from "components/kakao/KakaoSignIn";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function MainPage() {
   const navigate = useNavigate();
-
+  const [userCoordinates, setUserCoordinates] = useState<PlaceCoordinates>({
+    latitude: 0,
+    longitude: 0,
+  });
   const handleClick = () => {
     navigate("/locals");
   };
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setUserCoordinates({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      });
+    }
+  }, []);
 
   return (
     <Container>
@@ -21,7 +36,7 @@ function MainPage() {
         <KakaoSignIn></KakaoSignIn>
       </MainTopBar>
 
-      <PlaceRecommend />
+      <PlaceRecommend userCoordinates={userCoordinates} />
     </Container>
   );
 }

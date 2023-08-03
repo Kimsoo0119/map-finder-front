@@ -62,7 +62,11 @@ function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
   }
 
   if (loading) {
-    return <LoadingSpinner />;
+    return (
+      <LoadingSpinnerContainer>
+        <LoadingSpinner />
+      </LoadingSpinnerContainer>
+    );
   }
 
   if (!hasResult) {
@@ -73,7 +77,7 @@ function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
     <ResultWrapper>
       {results.map((result) => (
         <LinkWrapper key={result.title}>
-          <Link to={`/`} state={result}>
+          <Link to={`/place`} state={result}>
             <div>
               <h2>{result.title}</h2>
               <p>Category: {result.category}</p>
@@ -110,4 +114,13 @@ const CenteredParagraph = styled.p`
   align-items: center;
   font-size: 24px;
   color: #666;
+`;
+
+const LoadingSpinnerContainer = styled.div`
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: -10vh;
 `;
