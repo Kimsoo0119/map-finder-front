@@ -19,6 +19,10 @@ function Map({ mapInit, setMapInit }: LocationProps) {
   const [markers, setMarkers] = useState<any[]>([]);
   var locationBtnHtml = '<img src="/icons/my-location.svg" />';
   var blankHtml = '<img src="/icons/blank.svg" />';
+  const [placeCoordinate, setPlaceCoordinate] = useState<any>({
+    latitude: 0,
+    longitude: 0,
+  });
 
   useEffect(() => {
     if (naver) {
@@ -91,10 +95,16 @@ function Map({ mapInit, setMapInit }: LocationProps) {
     }
 
     if (searchedPlace) {
-      const tm128 = new naver.maps.Point(searchedPlace.mapX, searchedPlace.mapY);
-      const { x, y } = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
+      const placeAddress = `${searchedPlace.region.administrative_district} ${searchedPlace.region.district} ${searchedPlace.address}`;
+      getSearchedPlaceCoordinate(placeAddress);
+    }
+  }, [currentLocation, searchedPlace]);
 
-      if ((x !== markers[1]?.position.x && y !== markers[1]?.position.y) || !markers[1]) {
+  useEffect(() => {
+    if (placeCoordinate.latitude && placeCoordinate.longitude) {
+      const { latitude: y, longitude: x } = placeCoordinate;
+
+      if ((x !== markers[1]?.position._lng && y !== markers[1]?.position._lat) || !markers[1]) {
         const searchedPlaceLocation = new naver.maps.Marker({
           position: new naver.maps.LatLng({ lat: y, lng: x }),
           map: mapRef.current,
@@ -107,7 +117,7 @@ function Map({ mapInit, setMapInit }: LocationProps) {
         setMarkers([markers[0], searchedPlaceLocation]);
       }
     }
-  }, [currentLocation, searchedPlace]);
+  }, [placeCoordinate, markers]);
 
   function convertLatlng(location: Partial<GeolocationCoordinates>) {
     const latLng = {
@@ -116,7 +126,21 @@ function Map({ mapInit, setMapInit }: LocationProps) {
       _lat: location.latitude,
       _lng: location.longitude,
     };
+
     return latLng;
+  }
+
+  async function getSearchedPlaceCoordinate(placeAddress: string) {
+    await naver.maps.Service.geocode({ query: placeAddress }, (status: any, response: any) => {
+      if (status !== naver.maps.Service.Status.OK) {
+        return;
+      }
+
+      const result = response.v2;
+      if (result.addresses[0].x && result.addresses[0].y) {
+        setPlaceCoordinate({ longitude: result.addresses[0].x, latitude: result.addresses[0].y });
+      }
+    });
   }
 
   return <div id="map" style={{ width: "100%", height: "100%" }}></div>;
