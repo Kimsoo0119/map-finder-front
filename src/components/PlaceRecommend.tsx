@@ -85,7 +85,7 @@ function PlaceRecommend({ userCoordinates }: PlaceRecommendProps) {
         <DivPre onClick={previous}>
           <img src={"/icons/previous.png"} alt={"previous-arrow"} />
         </DivPre>
-        <h2 style={{ textAlign: "center" }}>근처 맛집 어때?</h2>
+        <h3 style={{ textAlign: "center" }}>근처 맛집 어때?</h3>
         <DivNext onClick={next}>
           <img src={"/icons/next.png"} alt={"next-arrow"} />
         </DivNext>
@@ -95,12 +95,14 @@ function PlaceRecommend({ userCoordinates }: PlaceRecommendProps) {
         <LoadingSpinnerContainer>
           <LoadingSpinner />
         </LoadingSpinnerContainer>
-      ) : (
+      ) : recommendedPlaces.length > 0 ? (
         <StyledSlider {...slickSettings} ref={slickRef}>
           {recommendedPlaces.map((restaurant) => (
             <PlaceCard key={restaurant.id} place={restaurant} />
           ))}
         </StyledSlider>
+      ) : (
+        <NoPlacesMessage>추천 장소가 없습니다.</NoPlacesMessage>
       )}
     </Container>
   );
@@ -165,6 +167,15 @@ const LoadingSpinnerContainer = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
+`;
+
+const NoPlacesMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25vh;
+  font-size: 16px;
+  color: #666;
 `;
 
 export default PlaceRecommend;
