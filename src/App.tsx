@@ -33,7 +33,6 @@ function App() {
           <Route path="/kakao-oauth" element={<KakaoCallBack />} />
         </Routes>
       </BrowserRouter>
-      <GlobalStyle />
     </>
   );
 }
