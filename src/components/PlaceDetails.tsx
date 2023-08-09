@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { SearchedPlaceProps } from "./PlaceBox";
-import { SearchedPlace } from "pages/map";
 import axios from "axios";
-import { PlaceDetail } from "common/interface/interface";
+import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
 import styled from "styled-components";
 
 interface PlaceDetailsProps extends SearchedPlaceProps {
@@ -28,9 +27,9 @@ function PlaceDetails({
   async function fetchPlaceData() {
     try {
       if (searchedPlace) {
-        const { address, category, title, telephone }: SearchedPlace = searchedPlace;
+        const { address, category, title }: SearchedPlace = searchedPlace;
         const { data } = await axios.get(backEndUrl + "/places", {
-          params: { address, category, title, telephone },
+          params: { address, category, title },
         });
         if (data) {
           setPlaceDetail(data);
@@ -44,11 +43,6 @@ function PlaceDetails({
   useEffect(() => {
     fetchPlaceData();
   }, [searchedPlace]);
-
-  // useEffect(() => {
-  //   console.log(":", placeDetail);
-  // }, [placeDetail]);
-  // placeDetail;
 
   function handleDown() {
     const titleContainer = document.getElementById("title")?.style;

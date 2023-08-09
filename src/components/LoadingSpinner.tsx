@@ -13,6 +13,7 @@ const RotateAnimation = keyframes`
 export default function LoadingSpinner() {
   return (
     <Wrapper
+      name="loadingSpinner"
       style={{
         width: 30,
         height: 30,
@@ -39,10 +40,6 @@ export default function LoadingSpinner() {
 }
 
 const Wrapper = styled.svg`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   color: #666;
   animation-name: ${RotateAnimation};
   animation-duration: 1s;

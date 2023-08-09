@@ -1,10 +1,9 @@
 import axios from "axios";
-import { SearchedPlace } from "pages/map";
 import { Resizable } from "re-resizable";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import PlaceDetails from "./PlaceDetails";
-import { PlaceDetail } from "common/interface/interface";
+import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
 
 export interface SearchedPlaceProps {
   searchedPlace: SearchedPlace | undefined;
