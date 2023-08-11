@@ -79,10 +79,12 @@ function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
         <LinkWrapper key={result.title}>
           <Link to={`/place`} state={result}>
             <div>
-              <h2>{result.title}</h2>
-              <p>Category: {result.category}</p>
-              <p>Address: {result.address}</p>
-              <p>Telephone: {result.telephone}</p>
+              <p>{result.category.replace(/>/g, " > ")}</p>
+              <h3>
+                {result.title}
+                {"\n"}
+              </h3>
+              <p>{result.address}</p>
             </div>
           </Link>
         </LinkWrapper>
@@ -105,6 +107,13 @@ const LinkWrapper = styled.div`
   a {
     color: #000;
     text-decoration: none;
+    margin-bottom: 1px;
+  }
+  h3 {
+    margin-bottom: 3px;
+  }
+  div {
+    margin: 0 10px;
   }
 `;
 
