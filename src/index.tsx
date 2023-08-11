@@ -12,8 +12,4 @@ declare global {
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 axios.defaults.withCredentials = true;
 
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+root.render(<App />);

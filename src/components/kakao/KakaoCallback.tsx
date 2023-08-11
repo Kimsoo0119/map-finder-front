@@ -30,11 +30,11 @@ export function KakaoCallBack() {
   async function getJwtToken(authorizationCode: any) {
     try {
       const response = await axios.get(
-        `${backEndUrl}/auth/signin/kakao?authorizationCode=${authorizationCode}`,
-        { withCredentials: true }
+        `${backEndUrl}/auth/signin/kakao?authorizationCode=${authorizationCode}`
       );
       if (response.data.accessToken) {
         dispatch(setAccessToken(response.data.accessToken));
+        axios.defaults.headers["Authorization"] = `Bearer ${response.data.accessToken}`;
         navigate("/");
       }
     } catch (error) {
@@ -44,13 +44,6 @@ export function KakaoCallBack() {
 
   return <Container></Container>;
 }
-
-const LoadingSpinnerContainer = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-`;
 
 const Container = styled.div`
   display: flex;
