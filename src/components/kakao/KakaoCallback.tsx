@@ -1,11 +1,18 @@
 import axios from "axios";
+import LoadingSpinner from "components/LoadingSpinner";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "store";
+import { setAccessToken } from "store/reducers/AuthSlice";
+import styled from "styled-components";
 
 const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
 
 export function KakaoCallBack() {
   const [authorizationCode, setAuthorizationCode] = useState<string | null>();
-  const [token, setToken] = useState<any>();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URL(document.location.toString()).searchParams;
@@ -20,18 +27,29 @@ export function KakaoCallBack() {
     }
   }, [authorizationCode]);
 
-  useEffect(() => {
-    if (token) {
-      console.log(token);
-    }
-  }, [token]);
-
   async function getJwtToken(authorizationCode: any) {
-    const { data } = await axios.get(
-      `${backEndUrl}/auth/signin/kakao?authorizationCode=${authorizationCode}`,
-      { withCredentials: true }
-    );
-    setToken(data);
+    try {
+      const response = await axios.get(
+        `${backEndUrl}/auth/signin/kakao?authorizationCode=${authorizationCode}`
+      );
+      if (response.data.accessToken) {
+        dispatch(setAccessToken(response.data.accessToken));
+        axios.defaults.headers["Authorization"] = `Bearer ${response.data.accessToken}`;
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error fetching JWT token:", error);
+    }
   }
-  return <></>;
+
+  return <Container></Container>;
 }
+
+const Container = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  padding: 10px;
+`;

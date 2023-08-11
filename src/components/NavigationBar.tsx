@@ -8,6 +8,9 @@ const BottomNav = () => {
   const isActivePage = (path: any) => {
     return location.pathname === path;
   };
+  if (location.pathname !== "/" && location.pathname !== "/locals" && location.pathname !== "/my") {
+    return null;
+  }
 
   return (
     <Container>
@@ -47,7 +50,7 @@ const Container = styled.nav`
   bottom: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 6vh;
   background-color: #ffffff;
   display: flex;
   justify-content: space-around;

@@ -1,29 +1,81 @@
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { KakaoSignIn } from "./kakao/KakaoSignIn";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "store";
+import Popover from "./Popover";
+import { Cookies } from "react-cookie";
+import axios from "axios";
+import { setAccessToken } from "store/reducers/AuthSlice";
+
+const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
 
 function MainTopBar() {
   const navigate = useNavigate();
+  const token = useSelector((state: RootState) => state.token.value);
+  const dispatch = useDispatch();
 
-  const handleClick = () => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!token);
+
+  function handleMoreImageClick() {
+    setIsPopoverOpen(!isPopoverOpen);
+  }
+
+  function handleContainerClick() {
+    if (isPopoverOpen) {
+      setIsPopoverOpen(false);
+    }
+  }
+
+  function handleSearchButtonClick() {
     navigate("/locals");
-  };
+  }
+
+  function handleLogOutButtonClick() {
+    setIsPopoverOpen(false);
+    setIsLoggedIn(false);
+  }
+
+  useEffect(() => {
+    if (!token) {
+      login();
+    }
+  }, []);
+  async function login() {
+    const response = await axios.get(`${backEndUrl}/auth/token`);
+    if (response.data.accessToken) {
+      dispatch(setAccessToken(response.data.accessToken));
+      axios.defaults.headers["Authorization"] = `Bearer ${response.data.accessToken}`;
+      setIsLoggedIn(true);
+    }
+  }
+
   return (
-    <Container>
+    <Container onClick={handleContainerClick}>
       <SearchIcon
-        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSIgc3Ryb2tlPSIjQzVDNUM1IiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGN4PSI2LjYxMSIgY3k9IjYuNjExIiByPSI1Ljg2MSIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTE1LjI1IDE1LjI1bC00LjI0My00LjI0MyIvPjwvZz48L3N2Zz4=
-"
-        onClick={() => handleClick()}
+        src="icons/navigation/search-inactive.svg"
+        onClick={() => handleSearchButtonClick()}
+      />
+      {!isLoggedIn && <SignUpButton onClick={() => navigate("/signin")}>로그인</SignUpButton>}
+      <MoreImage onClick={handleMoreImageClick} src="/icons/more.png" />
+      <Popover
+        isOpen={isPopoverOpen}
+        isLoggedIn={isLoggedIn} // 로그인 상태 전달
+        onLogout={handleLogOutButtonClick}
+        onClose={() => setIsPopoverOpen(false)}
       />
     </Container>
   );
 }
+
 const Container = styled.div`
+  z-index: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
-  height: 7vh;
+  height: 6vh;
   position: relative;
   background-color: #ffffff;
   margin-bottom: 10px;
@@ -31,8 +83,27 @@ const Container = styled.div`
 `;
 
 const SearchIcon = styled.img`
+  margin-right: 10px;
   width: 20px;
   height: 20px;
+`;
+
+const SignUpButton = styled.button`
+  margin-right: 10px;
+  background: none;
+  border: none;
+  color: #000000;
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid #000000;
+  border-radius: 15px;
+  padding: 5px 15px;
+`;
+
+const MoreImage = styled.img`
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
 `;
 
 export default MainTopBar;
