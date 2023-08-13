@@ -63,8 +63,6 @@ function LocationSearchBox({
   function handleSearch() {
     let finalSearchTerm = searchTerm;
     if (selectedCategory === "Around") {
-      console.log(userAddress);
-
       finalSearchTerm = `${userAddress} ${searchTerm}`;
     }
 

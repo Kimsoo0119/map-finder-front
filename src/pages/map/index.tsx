@@ -1,25 +1,39 @@
 import styled from "@emotion/styled";
 import axios from "axios";
-import { SearchedPlace } from "common/interface/place-interface";
+import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
 import Map from "components/Map";
-import PlaceBox from "components/SearchedPlaceCard";
+import SearchedPlaceCard from "components/SearchedPlaceCard";
 import SearchBox from "components/SearchBox";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
+
 function MapPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [searchedPlace, setSearchedPlace] = useState<SearchedPlace>();
   const placeName = location.state?.title;
-
+  const [placeDetail, setPlaceDetail] = useState<PlaceDetail>();
+  const [titleVisible, setTitleVisible] = useState<boolean>(true);
   useEffect(() => {
-    if (location.state?.title) {
-      setSearchedPlace(location.state);
-    }
-  }, [location.state]);
+    fetchPlaceData();
+  }, []);
 
-  useEffect(() => {});
+  async function fetchPlaceData() {
+    try {
+      if (location.state) {
+        const { address, category, title }: SearchedPlace = location.state;
+        const { data } = await axios.get(backEndUrl + "/places", {
+          params: { address, category, title },
+        });
+        if (data) {
+          setPlaceDetail(data);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function handlePrevious() {
     navigate(-1);
@@ -28,15 +42,14 @@ function MapPage() {
   return (
     <Container>
       {placeName && (
-        <Title id="title">
+        <TopBar>
           <PreButton src="/icons/arrow-back-8.svg" onClick={handlePrevious} />
-          {placeName}
-        </Title>
+        </TopBar>
       )}
 
       {placeName && (
         <Place id="place">
-          <PlaceBox searchedPlace={searchedPlace} />
+          <SearchedPlaceCard placeDetail={placeDetail} />
         </Place>
       )}
       <MapContainer>
@@ -62,7 +75,7 @@ const MapContainer = styled.div`
   position: relative;
 `;
 
-const Title = styled.div`
+const TopBar = styled.div`
   z-index: 2;
   display: flex;
   align-items: center;
@@ -75,7 +88,7 @@ const Title = styled.div`
   font-weight: bold;
   width: 100%;
   height: calc(100vh / 13);
-  background-color: #ffff;
+  background-color: transparent;
   padding-left: 13px;
 `;
 
@@ -97,10 +110,10 @@ const PreButton = styled.img`
   border: none;
   background: inherit;
   cursor: pointer;
-  width: 30px; /* div의 원하는 크기를 설정 */
+  width: 30px;
   height: 30px;
   svg {
-    width: 100%; /* svg의 width와 height를 100%로 설정 */
+    width: 100%;
     height: 100%;
   }
   margin-right: 10px;

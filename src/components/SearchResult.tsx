@@ -16,6 +16,8 @@ interface Props {
 const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
 
 function Result({ results, placeName, setResults, isInit, setIsInit }: Props) {
+  console.log(placeName);
+
   const [loading, setLoading] = useState<boolean>(false);
   const [hasResult, setHasResult] = useState<boolean>(true);
 
