@@ -1,24 +1,28 @@
-import axios from "axios";
 import { Resizable } from "re-resizable";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import PlaceDetails from "./PlaceDetails";
 import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
+import LoadingSpinner from "./LoadingSpinner";
 
 export interface SearchedPlaceProps {
-  searchedPlace: SearchedPlace | undefined;
+  placeDetail: PlaceDetail | undefined;
 }
 
-function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
+function SearchedPlaceCard({ placeDetail }: SearchedPlaceProps) {
   const [firstHeight, setFirstHeight] = useState<number>(0);
   const [showSearchPlaceCard, setShowSearchPlaceCard] = useState<boolean>(false);
   const [showPlaceDetails, setShowPlaceDetails] = useState<boolean>(true);
   const resizableRef = useRef<HTMLElement | null | undefined>(null);
-  const [placeDetail, setPlaceDetail] = useState<PlaceDetail>();
+  const [loading, setLoading] = useState<boolean>(true);
   const defaultHeight = "23vh";
+  useEffect(() => {
+    if (placeDetail) {
+      setLoading(false);
+    }
+  }, [placeDetail]);
   function handleResizeStart(elementRef: HTMLElement) {
     const height = parseInt(elementRef.style.height || "0", 10);
-
     if (height >= 90) {
       setFirstHeight(90);
     }
@@ -53,7 +57,7 @@ function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
     }
   }
 
-  function handleResize() {
+  function handleResize(ref: HTMLElement) {
     if (showSearchPlaceCard) {
       setShowSearchPlaceCard(false);
       setShowPlaceDetails(true);
@@ -77,41 +81,44 @@ function PlaceBox({ searchedPlace }: SearchedPlaceProps) {
         handleResizeStart(ref);
       }}
       onResize={(e, direction, ref, d) => {
-        handleResize();
+        handleResize(ref);
       }}
     >
       <PlaceCardContainer id="placeCard" hidden={showSearchPlaceCard}>
         <IconWrapper>
           <img width={"30"} src="/icons/dash.svg" alt="Collapse icon" />
         </IconWrapper>
-        <SearchedPlaceCard>
-          <ThumbnailContainer>
-            <ThumbnailImage src={placeDetail?.thum_url} alt="Place thumbnail" />
-          </ThumbnailContainer>
-          <PlaceInfoContainer>
-            <Category>
-              {searchedPlace?.place_category.main}
-              {" > "}
-              {searchedPlace?.place_category.sub}
-            </Category>
-            <Title>{searchedPlace?.title}</Title>
-            <Address>
-              {searchedPlace?.region.administrative_district}
-              {searchedPlace?.region.district}
-              {searchedPlace?.address}
-            </Address>
-          </PlaceInfoContainer>
-        </SearchedPlaceCard>
+        {loading ? (
+          <LoadingSpinnerContainer>
+            <LoadingSpinner />
+          </LoadingSpinnerContainer>
+        ) : (
+          <PlaceCard>
+            <ThumbnailContainer>
+              <ThumbnailImage src={placeDetail?.thum_url} alt="Place thumbnail" />
+            </ThumbnailContainer>
+            <PlaceInfoContainer>
+              <Category>
+                {placeDetail?.place_category.main}
+                {" > "}
+                {placeDetail?.place_category.sub}
+              </Category>
+              <Title>{placeDetail?.title}</Title>
+              <Address>
+                {placeDetail?.region.administrative_district} {placeDetail?.region.district}{" "}
+                {placeDetail?.address}
+              </Address>
+            </PlaceInfoContainer>
+          </PlaceCard>
+        )}
       </PlaceCardContainer>
       <PlaceDetailsContainer hidden={showPlaceDetails}>
         <PlaceDetails
-          searchedPlace={searchedPlace}
           setFirstHeight={setFirstHeight}
           setShowSearchPlaceCard={setShowSearchPlaceCard}
           setShowPlaceDetails={setShowPlaceDetails}
           resizableRef={resizableRef}
           placeDetail={placeDetail}
-          setPlaceDetail={setPlaceDetail}
           defaultHeight={defaultHeight}
         />
       </PlaceDetailsContainer>
@@ -159,7 +166,7 @@ const PlaceDetailsContainer = styled.div<{ hidden: boolean }>`
   ${({ hidden }) => (hidden ? "display: none;" : "")};
 `;
 
-const SearchedPlaceCard = styled.div`
+const PlaceCard = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -193,6 +200,11 @@ const PlaceInfoContainer = styled.div`
 `;
 
 const Title = styled.h2`
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* 타이틀을 1줄로 제한 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
   font-size: 1.2rem;
   margin-bottom: 5px;
 `;
@@ -203,7 +215,20 @@ const Category = styled.h3`
 `;
 
 const Address = styled.h5`
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* 타이틀을 2줄로 제한 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   font-size: 0.8rem;
   color: gray;
 `;
-export default PlaceBox;
+
+const LoadingSpinnerContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export default SearchedPlaceCard;

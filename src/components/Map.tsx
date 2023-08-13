@@ -16,27 +16,15 @@ function Map() {
   const [markers, setMarkers] = useState<any[]>([]);
   // var locationBtnHtml = '<img src="/icons/my-location.svg" />';
   // var blankHtml = '<img src="/icons/blank.svg" />';
-  const [placeCoordinate, setPlaceCoordinate] = useState<PlaceCoordinates>({
-    latitude: 37.5665984,
-    longitude: 126.9782095,
-  });
+  const [placeCoordinate, setPlaceCoordinate] = useState<PlaceCoordinates>();
   useEffect(() => {
-    initMap(placeCoordinate);
+    initMap();
   }, []);
 
-  function initMap(position: PlaceCoordinates) {
+  function initMap() {
     try {
       const container = document.getElementById("map"); // 지도를 표시할 div
-      mapRef.current = new naver.maps.Map(container, {
-        center: new naver.maps.LatLng(position.latitude, position.longitude),
-      });
-
-      setMarkers([
-        new naver.maps.Marker({
-          position: new naver.maps.LatLng(position.latitude, position.longitude),
-          map: mapRef.current,
-        }),
-      ]);
+      mapRef.current = new naver.maps.Map(container);
 
       // if (mapRef.current) {
       //   naver.maps.Event.once(mapRef.current, "init", function () {
@@ -62,20 +50,16 @@ function Map() {
 
   useEffect(() => {
     if (searchedPlace?.region) {
-      console.log(searchedPlace);
-
       const placeAddress = `${searchedPlace.region.administrative_district} ${searchedPlace.region.district} ${searchedPlace.address}`;
       getSearchedPlaceCoordinate(placeAddress);
     } else if (searchedPlace?.address) {
-      console.log(searchedPlace);
-
       const placeAddress = searchedPlace.address;
       getSearchedPlaceCoordinate(placeAddress);
     }
   }, [searchedPlace]);
 
   useEffect(() => {
-    if (placeCoordinate.latitude && placeCoordinate.longitude) {
+    if (placeCoordinate?.latitude && placeCoordinate?.longitude) {
       console.log(placeCoordinate);
 
       const { latitude: y, longitude: x } = placeCoordinate;
