@@ -56,7 +56,7 @@ const Container = styled.div`
 `;
 
 const PopoverContent = styled.div`
-  text-align: center;
+  text-align: right;
 
   ul {
     list-style-type: none;
