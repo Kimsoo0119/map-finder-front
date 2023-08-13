@@ -1,7 +1,8 @@
 import LocationSearchBox from "components/LocationSearchBox";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Result from "components/SearchResult";
+import { PlaceCoordinates } from "common/interface/place-interface";
 
 export interface SearchResult {
   title: string;
@@ -14,6 +15,22 @@ function LocalSearchPage() {
   const [placeName, setPlaceName] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isInit, setIsInit] = useState<Boolean>(false);
+  const [userCoordinates, setUserCoordinates] = useState<PlaceCoordinates>({
+    latitude: 0,
+    longitude: 0,
+  });
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setUserCoordinates({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      });
+    }
+  }, []);
+
   return (
     <Container>
       <SearchBoxContainer id="search">
@@ -22,8 +39,10 @@ function LocalSearchPage() {
           setPlaceName={setPlaceName}
           setResults={setResults}
           setIsInit={setIsInit}
+          userCoordinates={userCoordinates}
         />
       </SearchBoxContainer>
+
       <SearchResultContainer>
         <Result
           results={results}
@@ -46,12 +65,11 @@ const Container = styled.div`
 `;
 
 const SearchResultContainer = styled.div`
+  margin-top: 10px;
   flex: 9;
 `;
 
 const SearchBoxContainer = styled.div`
-  padding-right: 2vh;
-  padding-left: 2vh;
   flex: 1;
   display: flex;
   justify-content: center;
