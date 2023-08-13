@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "store";
-import Popover from "./Popover";
-import { Cookies } from "react-cookie";
+import Popover from "./MorePopover";
 import axios from "axios";
 import { setAccessToken } from "store/reducers/AuthSlice";
 

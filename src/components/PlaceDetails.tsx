@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SearchedPlaceProps } from "./PlaceBox";
+import { SearchedPlaceProps } from "./SearchedPlaceCard";
 import axios from "axios";
 import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
 import styled from "styled-components";
@@ -11,6 +11,7 @@ interface PlaceDetailsProps extends SearchedPlaceProps {
   resizableRef: React.MutableRefObject<HTMLElement | null | undefined>;
   setPlaceDetail: React.Dispatch<React.SetStateAction<PlaceDetail | undefined>>;
   placeDetail: PlaceDetail | undefined;
+  defaultHeight: string;
 }
 
 const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
@@ -23,6 +24,7 @@ function PlaceDetails({
   resizableRef,
   setPlaceDetail,
   placeDetail,
+  defaultHeight,
 }: PlaceDetailsProps) {
   async function fetchPlaceData() {
     try {
@@ -52,7 +54,7 @@ function PlaceDetails({
     placeContainer?.setProperty("border-radius", " 13px 13px 0 0");
 
     if (resizableRef.current) {
-      resizableRef.current.style.height = "20vh";
+      resizableRef.current.style.height = defaultHeight;
     }
 
     setFirstHeight(0);
