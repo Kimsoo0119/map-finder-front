@@ -60,8 +60,6 @@ function Map() {
 
   useEffect(() => {
     if (placeCoordinate?.latitude && placeCoordinate?.longitude) {
-      console.log(placeCoordinate);
-
       const { latitude: y, longitude: x } = placeCoordinate;
 
       if ((x !== markers[1]?.position._lng && y !== markers[1]?.position._lat) || !markers[1]) {
