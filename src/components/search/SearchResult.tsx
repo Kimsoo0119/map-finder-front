@@ -3,7 +3,7 @@ import { SearchResult } from "pages/search";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 
 interface Props {
   results: SearchResult[];

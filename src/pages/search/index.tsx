@@ -1,7 +1,7 @@
-import LocationSearchBox from "components/LocationSearchBox";
+import LocationSearchBox from "components/search/LocationSearchBox";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import Result from "components/SearchResult";
+import Result from "components/search/SearchResult";
 import { PlaceCoordinates } from "common/interface/place-interface";
 
 export interface SearchResult {
