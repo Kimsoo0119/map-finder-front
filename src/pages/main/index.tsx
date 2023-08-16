@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { PlaceCoordinates } from "common/interface/place-interface";
-import MainTopBar from "components/MainTopBar";
-import PlaceRecommend from "components/PlaceRecommend";
+import MainTopBar from "components/home/MainTopBar";
+import PlaceRecommend from "components/home/PlaceRecommend";
 import { useEffect, useState } from "react";
 
 function MainPage() {

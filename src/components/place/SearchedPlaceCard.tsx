@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import PlaceDetails from "./PlaceDetails";
 import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 
 export interface SearchedPlaceProps {
   placeDetail: PlaceDetail | undefined;
@@ -21,46 +21,37 @@ function SearchedPlaceCard({ placeDetail }: SearchedPlaceProps) {
       setLoading(false);
     }
   }, [placeDetail]);
-  function handleResizeStart(elementRef: HTMLElement) {
-    const height = parseInt(elementRef.style.height || "0", 10);
-    if (height >= 90) {
-      setFirstHeight(90);
-    }
-  }
 
   function handleResizeStop(ref: HTMLElement) {
     const height = parseInt(ref.style.height || "0", 10);
 
     const titleContainer = document.getElementById("title")?.style;
     const placeContainer = document.getElementById("place")?.style;
-
-    if (firstHeight === 90 && placeContainer) {
-      //전체화면일때
+    if (height === 100) {
       titleContainer?.setProperty("display", "");
       placeContainer?.setProperty("border-radius", " 13px 13px 0 0");
       ref.style.height = defaultHeight;
       setFirstHeight(0);
       setShowSearchPlaceCard(false);
       setShowPlaceDetails(true);
-    } else if (height >= 40 && placeContainer) {
+    } else if (firstHeight >= 90 && firstHeight > height) {
+      titleContainer?.setProperty("display", "");
+      placeContainer?.setProperty("border-radius", " 13px 13px 0 0");
+      ref.style.height = defaultHeight;
+      setFirstHeight(0);
+      setShowSearchPlaceCard(false);
+      setShowPlaceDetails(true);
+    } else if (height >= 40 && height > firstHeight) {
       //화면을 올릴때
-      setShowSearchPlaceCard(true);
-      setShowPlaceDetails(false);
-
       titleContainer?.setProperty("display", "none");
       placeContainer?.setProperty("border-radius", " 0 0 0 0");
-
       ref.style.height = "100vh";
+      setShowSearchPlaceCard(true);
+      setShowPlaceDetails(false);
+      setFirstHeight(100);
     } else {
       // 살짝 튕길때
       ref.style.height = defaultHeight;
-    }
-  }
-
-  function handleResize(ref: HTMLElement) {
-    if (showSearchPlaceCard) {
-      setShowSearchPlaceCard(false);
-      setShowPlaceDetails(true);
     }
   }
 
@@ -76,12 +67,6 @@ function SearchedPlaceCard({ placeDetail }: SearchedPlaceProps) {
       minHeight={"17vh"}
       onResizeStop={(e, direction, ref, d) => {
         handleResizeStop(ref);
-      }}
-      onResizeStart={(e, direction, ref) => {
-        handleResizeStart(ref);
-      }}
-      onResize={(e, direction, ref, d) => {
-        handleResize(ref);
       }}
     >
       <PlaceCardContainer id="placeCard" hidden={showSearchPlaceCard}>

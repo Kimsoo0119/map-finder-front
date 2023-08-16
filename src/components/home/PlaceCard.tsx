@@ -77,4 +77,5 @@ const LinkWrapper = styled.div`
     text-decoration: none;
   }
 `;
+
 export default PlaceCard;

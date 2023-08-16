@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PlaceCard from "./PlaceCard";
 import { PlaceCoordinates } from "common/interface/place-interface";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 
 const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
 

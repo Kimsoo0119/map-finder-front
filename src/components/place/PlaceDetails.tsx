@@ -21,9 +21,6 @@ function PlaceDetails({
   placeDetail,
   defaultHeight,
 }: PlaceDetailsProps) {
-  const starRating = parseFloat(placeDetail?.naver_stars || "0");
-  const filledStars = Math.min(Math.max(starRating, 0), 5);
-
   function handleDown() {
     const titleContainer = document.getElementById("title")?.style;
     const placeContainer = document.getElementById("place")?.style;
@@ -50,7 +47,7 @@ function PlaceDetails({
         <PlaceMain id="placeMain">
           <TitleContainer>
             <Title>{placeDetail.title}</Title>
-            <Category>{placeDetail.place_category.sub}</Category>
+            <CategoryText>{placeDetail.place_category.sub}</CategoryText>
           </TitleContainer>
 
           <DetailContainer>
@@ -64,12 +61,14 @@ function PlaceDetails({
           <DetailContainer>
             <ImageIcon src="/icons/place/star.png" />
             {placeDetail.naver_stars ? (
-              <h4>
-                {placeDetail.naver_stars}
-                {"/5"} {`(${placeDetail.naver_reviewer_counts})`}
-              </h4>
+              <StarContainer>
+                {" "}
+                <h4>
+                  {placeDetail.naver_stars} {`(${placeDetail.naver_reviewer_counts}명 참여)`}
+                </h4>
+              </StarContainer>
             ) : (
-              0
+              <h4></h4>
             )}
           </DetailContainer>
         </PlaceMain>
@@ -86,8 +85,8 @@ const Container = styled.div`
 
 const Banner = styled.div`
   position: absolute;
-  top: 10px; /* Adjust this value to control the vertical position */
-  left: 5px;
+  top: 10px;
+  left: 10px;
   width: 100%;
   height: 4vh;
 `;
@@ -102,7 +101,6 @@ const DownButton = styled.img`
     width: 100%;
     height: 100%;
   }
-  margin-right: 10px;
 `;
 
 const MainImage = styled.img`
@@ -117,7 +115,7 @@ const PlaceMain = styled.div`
   padding: 20px;
 `;
 
-const Title = styled.h1`
+const Title = styled.h2`
   display: -webkit-box;
   -webkit-line-clamp: 1; /* 타이틀을 1줄로 제한 */
   -webkit-box-orient: vertical;
@@ -138,9 +136,9 @@ const ImageIcon = styled.img`
   margin-right: 4px;
 `;
 
-const Category = styled.h4`
-  color: #666; /* Category 텍스트에 회색 색상 적용 */
-  margin-left: 10px; /* Title과 Category 간격 설정 */
+const CategoryText = styled.h4`
+  color: #666;
+  margin-left: 10px;
 `;
 
 const TitleContainer = styled.div`
@@ -148,4 +146,8 @@ const TitleContainer = styled.div`
   align-items: center;
   margin-bottom: 5px;
 `;
+const StarContainer = styled.div`
+  display: flex;
+`;
+
 export default PlaceDetails;

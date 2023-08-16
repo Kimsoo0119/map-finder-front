@@ -2,8 +2,7 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
 import Map from "components/Map";
-import SearchedPlaceCard from "components/SearchedPlaceCard";
-import SearchBox from "components/SearchBox";
+import SearchedPlaceCard from "components/place/SearchedPlaceCard";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
