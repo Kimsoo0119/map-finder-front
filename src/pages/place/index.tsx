@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
 import axios from "axios";
 import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
-import Map from "components/Map";
+import Map from "components/place/Map";
 import SearchedPlaceCard from "components/place/SearchedPlaceCard";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const backEndUrl = process.env.REACT_APP_BACKEND_SERVER;
 
-function MapPage() {
+function PlacePage() {
   const location = useLocation();
   const navigate = useNavigate();
   const placeName = location.state?.title;
@@ -58,7 +58,7 @@ function MapPage() {
   );
 }
 
-export default MapPage;
+export default PlacePage;
 
 const Container = styled.div`
   display: flex;

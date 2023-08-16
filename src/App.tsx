@@ -1,5 +1,5 @@
 import "../src/styles/globals.css";
-import MapPage from "pages/map";
+import PlacePage from "pages/place";
 import LocalSearchPage from "pages/search";
 import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -33,7 +33,7 @@ function App() {
             <MainContent>
               <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/place" element={<MapPage />} />
+                <Route path="/place" element={<PlacePage />} />
                 <Route path="/locals" element={<LocalSearchPage />} />
                 <Route path="/signin" element={<SignInPage />} />
                 <Route path="/kakao-oauth" element={<KakaoCallBack />} />
