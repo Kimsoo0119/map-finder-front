@@ -14,16 +14,16 @@ function PlaceTopSection({ placeDetail }: PlaceTopSectionProps) {
             <Category>{placeDetail.place_category.sub}</Category>
           </TitleContainer>
 
-          <StarContainer>
-            <ImageIcon src="/icons/place/star.png" />
-            {placeDetail.naver_stars ? (
+          {placeDetail.naver_stars ? (
+            <StarContainer>
+              <ImageIcon src="/icons/place/star.png" />
               <Stars>
                 {placeDetail.naver_stars} {`(${placeDetail.naver_reviewer_counts}명 참여)`}
               </Stars>
-            ) : (
-              <></>
-            )}
-          </StarContainer>
+            </StarContainer>
+          ) : (
+            <></>
+          )}
         </div>
       )}
     </Container>
@@ -48,15 +48,21 @@ const Title = styled.h2`
   overflow: hidden;
   word-break: break-word;
   margin-bottom: 5px;
+  margin-top: 5px;
 `;
 
 const Category = styled.h4`
   color: #666;
   margin-left: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+
+  flex-shrink: 0;
 `;
 
 const StarContainer = styled.div`
   display: flex;
+  margin-bottom: 10px;
 `;
 
 const Stars = styled.h4``;

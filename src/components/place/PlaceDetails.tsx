@@ -4,6 +4,7 @@ import axios from "axios";
 import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
 import styled from "styled-components";
 import PlaceTopSection from "./PlaceTopSection";
+import PlaceTabBar from "./PlaceTabBar";
 
 interface PlaceDetailsProps {
   setFirstHeight: React.Dispatch<React.SetStateAction<number>>;
@@ -44,19 +45,15 @@ function PlaceDetails({
         <DownButton src="/icons/arrow-down.svg" onClick={handleDown} />
       </Banner>
       <MainImage src={placeDetail?.thum_url}></MainImage>
-      {placeDetail && (
-        <PlaceMain id="placeMain">
-          <PlaceTopSection placeDetail={placeDetail}></PlaceTopSection>
-
-          {/* <DetailContainer>
-            <ImageIcon src="/icons/place/location.png" />
-            <h4>
-              {placeDetail.region.administrative_district} {placeDetail.region.district}{" "}
-              {placeDetail.address}
-            </h4>
-          </DetailContainer> */}
-        </PlaceMain>
-      )}
+      <PlaceTopSection placeDetail={placeDetail}></PlaceTopSection>
+      {/* <DetailContainer>
+        <ImageIcon src="/icons/place/location.png" />
+        <h4>
+          {placeDetail.region.administrative_district} {placeDetail.region.district}{" "}
+          {placeDetail.address}
+        </h4>
+      </DetailContainer> */}
+      <PlaceTabBar></PlaceTabBar>
     </Container>
   );
 }
