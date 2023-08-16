@@ -13,7 +13,6 @@ function PlacePage() {
   const navigate = useNavigate();
   const placeName = location.state?.title;
   const [placeDetail, setPlaceDetail] = useState<PlaceDetail>();
-  const [titleVisible, setTitleVisible] = useState<boolean>(true);
   useEffect(() => {
     fetchPlaceData();
   }, []);

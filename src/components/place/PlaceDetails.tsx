@@ -3,6 +3,7 @@ import { SearchedPlaceProps } from "./SearchedPlaceCard";
 import axios from "axios";
 import { PlaceDetail, SearchedPlace } from "common/interface/place-interface";
 import styled from "styled-components";
+import PlaceTopSection from "./PlaceTopSection";
 
 interface PlaceDetailsProps {
   setFirstHeight: React.Dispatch<React.SetStateAction<number>>;
@@ -45,32 +46,15 @@ function PlaceDetails({
       <MainImage src={placeDetail?.thum_url}></MainImage>
       {placeDetail && (
         <PlaceMain id="placeMain">
-          <TitleContainer>
-            <Title>{placeDetail.title}</Title>
-            <CategoryText>{placeDetail.place_category.sub}</CategoryText>
-          </TitleContainer>
+          <PlaceTopSection placeDetail={placeDetail}></PlaceTopSection>
 
-          <DetailContainer>
+          {/* <DetailContainer>
             <ImageIcon src="/icons/place/location.png" />
             <h4>
               {placeDetail.region.administrative_district} {placeDetail.region.district}{" "}
               {placeDetail.address}
             </h4>
-          </DetailContainer>
-
-          <DetailContainer>
-            <ImageIcon src="/icons/place/star.png" />
-            {placeDetail.naver_stars ? (
-              <StarContainer>
-                {" "}
-                <h4>
-                  {placeDetail.naver_stars} {`(${placeDetail.naver_reviewer_counts}명 참여)`}
-                </h4>
-              </StarContainer>
-            ) : (
-              <h4></h4>
-            )}
-          </DetailContainer>
+          </DetailContainer> */}
         </PlaceMain>
       )}
     </Container>
@@ -146,6 +130,7 @@ const TitleContainer = styled.div`
   align-items: center;
   margin-bottom: 5px;
 `;
+
 const StarContainer = styled.div`
   display: flex;
 `;
