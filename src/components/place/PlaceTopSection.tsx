@@ -33,6 +33,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: left;
+  padding: 15px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const TitleContainer = styled.div`

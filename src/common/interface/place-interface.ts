@@ -22,6 +22,7 @@ export interface PlaceDetail {
     main: string;
     sub: string;
   };
+  operatingHours: string;
 }
 
 export interface SearchedPlace {

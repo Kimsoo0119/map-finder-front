@@ -10,10 +10,7 @@ function SearchBox() {
 
   return (
     <InputBox>
-      <SearchIcon
-        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSIgc3Ryb2tlPSIjQzVDNUM1IiBzdHJva2Utd2lkdGg9IjEuNSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGN4PSI2LjYxMSIgY3k9IjYuNjExIiByPSI1Ljg2MSIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZD0iTTE1LjI1IDE1LjI1bC00LjI0My00LjI0MyIvPjwvZz48L3N2Zz4=
-"
-      />
+      <SearchIcon src="icons/navigation/home-inactive.svg" />
       <Input placeholder="장소를 입력해주세요." maxLength={20} onClick={() => handleClick()} />
     </InputBox>
   );
@@ -37,10 +34,9 @@ const InputBox = styled.div`
   }
 `;
 
-const SearchIcon = styled.img<{ hover?: boolean }>`
+const SearchIcon = styled.img`
   width: 20px;
   height: 20px;
-  cursor: ${({ hover }) => (hover ? "pointer" : "default")};
 `;
 
 const Input = styled.input`
